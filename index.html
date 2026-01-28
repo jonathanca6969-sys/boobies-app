@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Surprise for You!</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            color: #fff;
+            text-align: center;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px 0 rgba(103, 58, 183, 0.3);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            max-width: 90%;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        #surprise-btn {
+            background-color: #b39ddb;
+            background-image: linear-gradient(to right, #b39ddb, #9575cd);
+            border: none;
+            color: white;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 15px rgba(149, 117, 205, 0.4);
+        }
+
+        #surprise-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(149, 117, 205, 0.6);
+        }
+
+        #surprise-btn:active {
+            transform: scale(0.95);
+        }
+
+        #message {
+            display: none;
+            font-size: 3rem;
+            font-weight: 800;
+            line-height: 1.2;
+            animation: popIn 0.5s ease-out, bounce 0.6s infinite alternate cubic-bezier(0.5, 0.05, 0.1, 0.3);
+            text-transform: lowercase;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes bounce {
+            from { transform: translateY(0) scale(1); }
+            to { transform: translateY(-20px) scale(1.05); }
+        }
+
+        .heart {
+            color: #d1c4e9;
+            font-size: 2rem;
+            margin-top: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div id="content">
+            <button id="surprise-btn">Click for a Surprise! ✨</button>
+            <div id="message">get ya boobie out!</div>
+            <div id="heart-row" class="heart">💜💜💜</div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('surprise-btn').addEventListener('click', function() {
+            // Hide the button
+            this.style.display = 'none';
+
+            // Show the message and hearts
+            const message = document.getElementById('message');
+            const hearts = document.getElementById('heart-row');
+            message.style.display = 'block';
+            hearts.style.display = 'block';
+
+            // Launch confetti
+            var duration = 5 * 1000;
+            var animationEnd = Date.now() + duration;
+            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+            function randomInRange(min, max) {
+              return Math.random() * (max - min) + min;
+            }
+
+            var interval = setInterval(function() {
+              var timeLeft = animationEnd - Date.now();
+
+              if (timeLeft <= 0) {
+                return clearInterval(interval);
+              }
+
+              var particleCount = 50 * (timeLeft / duration);
+              confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+              confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+            }, 250);
+        });
+    </script>
+</body>
+</html>
